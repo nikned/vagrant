@@ -49,8 +49,15 @@ then
 	# Start/Stop: /etc/init.d/jenkins
 	# Config: /etc/default/jenkins
 	# Jenkins log: /var/log/jenkins/jenkins.log
-	wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
-	sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+	
+	#### These lines install latest jenkins ( latest and greatest also unstable builds) #####################
+	# wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+	# sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+	#### These lines install latest jenkins ( latest and greatest also unstable builds) ######################
+
+	### POINTING TO STABLE JENKINS BUILDS ONLY #############
+        wget -q -O - http://pkg.jenkins-ci.org/debian-stable/jenkins-ci.org.key | sudo apt-key add -
+	sh -c 'echo deb http://pkg.jenkins-ci.org/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 	apt-get update
 	apt-get -y install jenkins
  
@@ -101,6 +108,19 @@ then
 	echo "Ant installed"
 else
 	echo "CHECK - Ant already installed"
+fi
+
+if [ ! -f /etc/init.d/git ];
+then
+	echo "-------- PROVISIONING Git ----------------"
+	echo "------------------------------------------"
+
+
+	## Install git
+	apt-get -y install git
+
+else
+	echo "CHECK - git already installed"
 fi
  
  
