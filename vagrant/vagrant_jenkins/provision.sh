@@ -164,7 +164,7 @@ then
         apt-get -y install opennms
 
         # Move Jenkins to port 6060
-        sed -i 's/8180/8180/g' /etc/default/opennms
+        #sed -i 's/8180/8180/g' /etc/default/opennms
         # Not Starting opennmas for now (need additional steps to run opennms successfully)
         #sudo service opennms start
 else
