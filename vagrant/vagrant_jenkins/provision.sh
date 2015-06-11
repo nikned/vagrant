@@ -110,6 +110,20 @@ else
 	echo "CHECK - Ant already installed"
 fi
 
+
+if [ ! -f /usr/share/maven/bin/mvn ];
+then
+	echo "-------- PROVISIONING MAVEN ---------------"
+	echo "-----------------------------------------"
+
+	apt-get install -y maven
+
+	echo "Maven installed"
+else
+	echo "CHECK - Maven already installed"
+fi
+
+
 if [ ! -f /etc/init.d/git ];
 then
 	echo "-------- PROVISIONING Git ----------------"
@@ -151,21 +165,40 @@ then
 
         # Move Jenkins to port 6060
         sed -i 's/8180/8180/g' /etc/default/opennms
-        sudo service opennms start
+        # Not Starting opennmas for now (need additional steps to run opennms successfully)
+        #sudo service opennms start
 else
         echo "CHECK - OpenNms already installed"
 fi
 
 
+### stricly needed for Jenkins to webdav to crm modules environment for deployment
+###
+
+	echo "-------- PROVISIONING Cadaver (open source webdav client) ------------"
+	echo "----------------------------------------------------------------------"
 
 
+	## Install Cadaver
+	# This gives us something to webdav and push files to dotcms environment
+
+	apt-get install -y cadaver
+	#create .netrc config with user login and password credentials ( putting mine for now )
+	sh -c 'echo "machine     ehctest.com
+				 login       nikhil.nedunuri@hcahealthcare.com
+				 password    changeit
+
+				 machine     ehcstaging.com
+				 login       nikhil.nedunuri@hcahealthcare.com
+				 password    changeme " > ~/.netrc'
 
 
- 
 echo "-------- PROVISIONING DONE ------------"
 echo "-- Jenkins: http://localhost:6060      "
 echo "-- Tomcat7: http://localhost:7070      "
+echo "-- Ant  -------------------------------"
+echo "-- Maven  -----------------------------"
+echo "-- git  -------------------------------"
+echo "-- OpenNMS(not started)  --------------"
+echo "-- Cadaver  ---------------------------"
 echo "---------------------------------------"
- 
- 
- 
