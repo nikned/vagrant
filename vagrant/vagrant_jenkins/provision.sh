@@ -123,6 +123,44 @@ else
 	echo "CHECK - git already installed"
 fi
  
+
+if [ ! -f /etc/init.d/opennms ];
+then
+        echo "-------- PROVISIONING OPENNMS ------------"
+        echo "------------------------------------------"
+
+
+        ## Install OpenNMS -OpenNMS is a free an open source enterprise grade network monitoring and network management platform
+        #
+        # URL:
+        # Home:
+        # Start/Stop:
+        # Config: /etc/default/opennms
+        
+
+        #### These lines install latest opennms #####################
+        # wget -q -O - http://debian.opennms.org/OPENNMS-GPG-KEY | sudo apt-key add -
+        # sh -c 'echo deb http://debian.opennms.org stable main > /etc/apt/sources.list.d/opennms.list'
+        #### These lines install latest opennms ######################
+
+       
+        wget -q -O - http://debian.opennms.org/OPENNMS-GPG-KEY | sudo apt-key add -
+        sh -c 'echo deb http://debian.opennms.org stable main > /etc/apt/sources.list.d/opennms.list'
+        apt-get update
+        apt-get -y install opennms
+
+        # Move Jenkins to port 6060
+        sed -i 's/8180/8180/g' /etc/default/opennms
+        sudo service opennms start
+else
+        echo "CHECK - OpenNms already installed"
+fi
+
+
+
+
+
+
  
 echo "-------- PROVISIONING DONE ------------"
 echo "-- Jenkins: http://localhost:6060      "
