@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="new server">
+  <!-- Enable features -->
+  <featureManager>
+    <feature>jsp-2.2</feature>
+    <feature>jpa-2.0</feature>
+    <feature>transaction-1.1</feature>
+    <feature>appSecurity-2.0</feature>
+    <feature>localConnector-1.0</feature>
+    <feature>usr:portlet-2.0</feature>
+    <feature>usr:portletserving-2.0</feature>
+    <feature>monitor-1.0</feature>
+    <feature>adminCenter-1.0</feature>
+    <feature>usr:webCacheMonitor-1.0</feature>
+    <feature>beanValidation-1.0</feature>
+    <feature>restConnector-1.0</feature>
+    <feature>jdbc-4.0</feature>
+    <feature>jndi-1.0</feature>
+    <feature>managedBeans-1.0</feature>
+    <feature>ldapRegistry-3.0</feature>
+    <feature>webProfile-6.0</feature>
+    <feature>cdi-1.0</feature>
+    <feature>concurrent-1.0</feature>
+  </featureManager>
+  <library id="global">
+    <fileset dir="/Users/gip7969/.m2/repository/" includes="*.jar" />
+  </library>
+  <applicationMonitor updateTrigger="mbean" />
+  <jpa defaultPersistenceProvider="org.hibernate.ejb.HibernatePersistence" />
+  <application-bnd>
+    <security-role name="AllAuthenticated">
+      <special-subject type="ALL_AUTHENTICATED_USERS" />
+    </security-role>
+  </application-bnd>
+  <authData id="auth1" user="wpsdbadm" password="CPPdev13" />
+  <authDataEntries id="JAASAuthData_123123123" alias="wpsdbadm" userId="wpsdbadm" password="CPPdev13" description="" />
+  <!-- Define your admin user name and password -->
+  <!-- Define the host name for use by the collective.
+   If the host name needs to be changed, the server should be
+   removed from the collective and re-joined. -->
+  <variable name="defaultHostName" value="localhost" />
+  <quickStartSecurity userName="admin" userPassword="adminpwd" />
+  <keyStore id="defaultKeyStore" password="Liberty" />
+  <transaction recoverOnStartup="true" waitForRecovery="true" />
+  <!-- Define an Administrator and non-Administrator -->
+  <basicRegistry id="basic">
+    <user name="admin" password="adminpwd" />
+    <user name="nonadmin" password="nonadminpwd" />
+  </basicRegistry>
+  <!-- Assign 'admin' to Administrator -->
+  <administrator-role>
+    <user>admin</user>
+  </administrator-role>
+  <remoteFileAccess>
+    <writeDir>${server.config.dir}</writeDir>
+  </remoteFileAccess>
+  <!-- To access db2  database, setting up datasource for jndi lookup -->
+  <!--<dataSource id="dataSource" isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/cppdb" type="javax.sql.XADataSource">-->
+  <dataSource id="db2" isolationLevel="TRANSACTION_READ_COMMITTED" jndiName="jdbc/cppdb" type="javax.sql.DataSource">
+    <jdbcDriver>
+      <library>
+        <fileset dir="/usr/lib/java/ibm-db2-universal-driver" includes="db2jcc4.jar, db2jcc_license_cisuz.jar, db2jcc_license_cu.jar jdbc-se2.0.jar" />
+      </library>
+    </jdbcDriver>
+    <!-- commenting properties for now -->
+    <!--<properties url="jdbc:db2://Nadclddbscpp01a.unix.medcity.net:60000/CPPDBDEV" />-->
+    <properties.db2.jcc databaseName="CPPDBDEV" portNumber="60000" currentSchema="CPPDBDEV" serverName="Nadclddbscpp01a.unix.medcity.net" user="wpsdbadm" url="jdbc:db2://Nadclddbscpp01a.unix.medcity.net:60000/CPPDBDEV" password="CPPdev13" />
+    <containerAuthData password="CPPdev13" user="wpsdbadm" />
+  </dataSource>
+  <library id="objectFactoryLib">
+    <fileset dir="/Users/gip7969/.m2/repository/com/ibm/websphere/portal/wp-engine-impl/8.0.0.1/" includes="wp-engine-impl-8.0.0.1.jar" />
+    <fileset dir="/Users/gip7969/.m2/repository/com/ibm/portal/core-api/8.0.0.1/" includes="core-api-8.0.0.1.jar" />
+  </library>
+  <jndiObjectFactory id="objectFactory" jndiName="portletservice/com.ibm.portal.portlet.service.credentialvault.CredentialVaultService" libraryRef="objectFactoryLib" className="com.ibm.portal.portlet.service.credentialvault.CredentialVaultService" />
+  <!--jndiEntry jndiName="portletservice/com.ibm.portal.portlet.service.credentialvault.CredentialVaultService" value="plato" /-->
+  <!--contextService jndiName="portletservice/com.ibm.portal.portlet.service.credentialvault.CredentialVaultService">
+    <classloaderContext>
+      <commonLibrary>
+        <fileset dir="/Users/gip7969/.m2/repository/com/ibm/websphere/portal/wp-engine-impl/8.0.0.1/" includes="wp-engine-impl-8.0.0.1.jar" />
+      </commonLibrary>
+    </classloaderContext>
+    <securityContext />
+  </contextService-->
+  <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+  <httpEndpoint id="defaultHttpEndpoint" httpPort="9080" httpsPort="9443" />
+  <applicationMonitor updateTrigger="mbean" />
+  <application id="kba_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/patient-registration/kba-portlet/target/kba-portlet.war" name="kba_portlet_war" type="war" />
+  <application id="provider_directory_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/provider-directory/provider-directory-portlet/target/provider-directory-portlet.war" name="provider_directory_portlet_war" type="war" />
+  <application id="portal_search_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/portal-search/portal-search-portlet/target/portal-search-portlet-1.0.0-SNAPSHOT.war" name="portal_search_portlet_war" type="war" />
+  <application id="service_common_application_ear" location="/Users/gip7969/IdeaProjects/MyHealthOne/common/service-common/service-common-application/target/service-common-application-1.0.0-SNAPSHOT.ear" name="service_common_application_ear" type="ear" />
+  <application id="clinical_allergy_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/clinical/clinical-allergy-portlet/target/clinical-allergy-portlet.war" name="clinical_allergy_portlet_war" type="war" />
+  <application id="patient_registration_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/patient-registration/CPPPatientRegistration-portlet/target/patient-registration-portlet.war" name="patient_registration_portlet_war" type="war" />
+  <application id="clinical_demographics_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/clinical/clinical-demographics-portlet/target/clinical-demographics-portlet.war" name="clinical_demographics_portlet_war" type="war" />
+  <application id="support_console_theme_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/themes/support-console-theme/target/support-console-theme-2.0.0-SNAPSHOT.war" name="support_console_theme_war" type="war" />
+  <application id="emulation_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/proxy/emulation-portlet/target/emulation-portlet.war" name="emulation_portlet_war" type="war" />
+  <application id="clinical_ui_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/clinical/clinical-ui-portlet/target/clinical-ui-portlet.war" name="clinical_ui_portlet_war" type="war" />
+  <application id="MyHealthOneTheme_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/themes/my-health-one-theme/target/MyHealthOneTheme-2.0.0-SNAPSHOT.war" name="MyHealthOneTheme_war" type="war" />
+  <application id="web_service_common_application_ear" location="/Users/gip7969/IdeaProjects/MyHealthOne/common/web-service-common-ear/target/web-service-common-application-1.0.0-SNAPSHOT.ear" name="web_service_common_application_ear" type="ear" />
+  <application id="RSAClient_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/rsa/RSAClient-portlet/target/RSAClient-portlet.war" name="RSAClient_portlet_war" type="war" />
+  <application id="user_creation_web_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/user-creation/user-creation-web/target/user-creation-web-1.0.0-SNAPSHOT.war" name="user_creation_web_war" type="war" />
+  <application id="sc_login_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/support-console-login/sc-login-portlet/target/sc-login-portlet-2.0.0-SNAPSHOT.war" name="sc_login_portlet_war" type="war" />
+  <application id="sc_activity_log_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/activity-log/activity-log-portlet/target/sc-activity-log-portlet.war" name="sc_activity_log_portlet_war" type="war" />
+  <application id="clinical_immunizations_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/clinical/clinical-immunizations-portlet/target/clinical-immunizations-portlet.war" name="clinical_immunizations_portlet_war" type="war" />
+  <application id="welcome_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/welcome/welcome-portlet/target/welcome-portlet.war" name="welcome_portlet_war" type="war" />
+  <application id="manage_password_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/profile/manage-password-portlet/target/manage-password-portlet.war" name="manage_password_portlet_war" type="war" />
+  <application id="database_encryption_web_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/database-encryption/database-encryption-web/target/database-encryption-web-1.0.0-SNAPSHOT.war" name="database_encryption_web_war" type="war" />
+  <application id="clinical_problems_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/clinical/clinical-problems-portlet/target/clinical-problems-portlet.war" name="clinical_problems_portlet_war" type="war" />
+  <application id="user_creation_application_ear" location="/Users/gip7969/IdeaProjects/MyHealthOne/user-creation/user-creation-application/target/user-creation-application-1.0.0-SNAPSHOT.ear" name="user_creation_application_ear" type="ear" />
+  <application id="service_common_web_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/common/service-common/service-common-web/target/service-common-web-1.0.0-SNAPSHOT.war" name="service_common_web_war" type="war" />
+  <application id="user_maintenance_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/user-maintenance/target/user-maintenance-portlet.war" name="user_maintenance_portlet_war" type="war" />
+  <application id="clinical_medications_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/clinical/clinical-medications-portlet/target/clinical-medications-portlet.war" name="clinical_medications_portlet_war" type="war" />
+  <application id="CPPUserProfileUpdate_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/profile/profile-portlet/target/CPPUserProfileUpdate-portlet.war" name="CPPUserProfileUpdate_portlet_war" type="war" />
+  <application id="myhealthone_anonymous_theme_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/themes/myhealthone-anonymous-theme/target/myhealthone-anonymous-theme-2.0.0-SNAPSHOT.war" name="myhealthone_anonymous_theme_war" type="war" />
+  <application id="proxy_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/proxy/proxy-portlet/target/proxy-portlet.war" name="proxy_portlet_war" type="war" />
+  <application id="deeplink2_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/themes/deeplink2/target/deeplink2-1.0.0-SNAPSHOT.war" name="deeplink2_war" type="war" />
+  <application id="CPPVerifyMail_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/login/CPPVerifyMail-portlet/target/CPPVerifyMail-portlet.war" name="CPPVerifyMail_portlet_war" type="war" />
+  <application id="CPPRegistration_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/login/CPPRegistration-portlet/target/CPPRegistration-portlet.war" name="CPPRegistration_portlet_war" type="war" />
+  <application id="CPPForgotLoginDetails_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/login/CPPForgotLoginDetails-portlet/target/CPPForgotLoginDetails-portlet.war" name="CPPForgotLoginDetails_portlet_war" type="war" />
+  <application id="clinical_health_visits_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/clinical/clinical-health-visits-portlet/target/clinical-health-visits-portlet.war" name="clinical_health_visits_portlet_war" type="war" />
+  <application id="sc_user_search_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/support-console-user-search/sc-user-search-portlet/target/sc-user-search-portlet.war" name="sc_user_search_portlet_war" type="war" />
+  <application id="clinical_lab_summary_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/clinical/clinical-lab-summary-portlet/target/clinical-lab-summary-portlet.war" name="clinical_lab_summary_portlet_war" type="war" />
+  <application id="CPPLogin_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/login/CPPLogin-portlet/target/CPPLogin-portlet.war" name="CPPLogin_portlet_war" type="war" />
+  <application id="class_event_portlet_war" location="/Users/gip7969/IdeaProjects/MyHealthOne/class-event/class-event-portlet/target/class-event-portlet.war" name="class_event_portlet_war" type="war" />
+</server>
+
