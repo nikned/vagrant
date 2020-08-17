@@ -64,8 +64,8 @@
     </jdbcDriver>
     <!-- commenting properties for now -->
     <!--<properties url="jdbc:db2://Nadclddbscpp01a.unix.medcity.net:60000/CPPDBDEV" />-->
-    <properties.db2.jcc databaseName="CPPDBDEV" portNumber="60000" currentSchema="CPPDBDEV" serverName="Nadclddbscpp01a.unix.medcity.net" user="wpsdbadm" url="jdbc:db2://Nadclddbscpp01a.unix.medcity.net:60000/CPPDBDEV" password="CPPdev13" />
-    <containerAuthData password="CPPdev13" user="wpsdbadm" />
+    <properties.db2.jcc databaseName="CPPDBDEV" portNumber="60000" currentSchema="<shema_name>" serverName="Nadclddbscpp01a.unix.medcity.net" user="wpsdbadm" url="jdbc:db2://Nadclddbscpp01a.unix.medcity.net:60000/CPPDBDEV" password="CPPdev13" />
+    <containerAuthData password="<password>" user="<dbusername>" />
   </dataSource>
   <library id="objectFactoryLib">
     <fileset dir="/Users/gip7969/.m2/repository/com/ibm/websphere/portal/wp-engine-impl/8.0.0.1/" includes="wp-engine-impl-8.0.0.1.jar" />
