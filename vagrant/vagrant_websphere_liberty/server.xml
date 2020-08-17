@@ -64,7 +64,7 @@
     </jdbcDriver>
     <!-- commenting properties for now -->
     <!--<properties url="jdbc:db2://Nadclddbscpp01a.unix.medcity.net:60000/CPPDBDEV" />-->
-    <properties.db2.jcc databaseName="CPPDBDEV" portNumber="60000" currentSchema="<shema_name>" serverName="Nadclddbscpp01a.unix.medcity.net" user="wpsdbadm" url="jdbc:db2://Nadclddbscpp01a.unix.medcity.net:60000/CPPDBDEV" password="CPPdev13" />
+    <properties.db2.jcc databaseName="CPPDBDEV" portNumber="60000" currentSchema="<shema_name>" serverName="<db_server_url>" user="wpsdbadm" url="jdbc:db2://db_server_url" password="<db_password>" />
     <containerAuthData password="<password>" user="<dbusername>" />
   </dataSource>
   <library id="objectFactoryLib">
